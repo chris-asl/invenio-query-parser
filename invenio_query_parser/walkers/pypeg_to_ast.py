@@ -52,6 +52,10 @@ class PypegConverter(object):
     def visit(self, node):
         return ast.Keyword(node.value)
 
+    @visitor(parser.NestedKeywordsRule)
+    def visit(self, node):
+        return ast.Value(node.value)
+
     @visitor(parser.SingleQuotedString)
     def visit(self, node):
         return ast.SingleQuotedValue(node.value)

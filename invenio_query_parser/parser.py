@@ -94,6 +94,11 @@ class KeywordRule(LeafRule):
     grammar = attr('value', re.compile(r"[\w\d]+(\.[\w\d]+)*"))
 
 
+class NestedKeywordsRule(LeafRule):
+    grammar = attr('value', re.compile(
+        r"(([\w\d]+(\.[\w\d]+)*):\s*)+([\w\d]+(\.[\w\d]+)*)"))
+
+
 class SingleQuotedString(LeafRule):
     grammar = Literal("'"), attr('value', re.compile(r"([^']|\\.)*")), \
         Literal("'")
@@ -186,7 +191,11 @@ KeywordQuery.grammar = [
     (
         attr('left', KeywordRule),
         omit(_, Literal(':'), _),
-        attr('right', KeywordQuery)
+        # FIXME: This should be replaced with KeywordQuery to restore
+        # intented functionality.
+        # Also NestedKeywordsRule class should be removed from
+        # this file, ./ast.py and ./walkers/pypeg_to_ast.py.
+        attr('right', NestedKeywordsRule)
     ),
     (
         attr('left', KeywordRule),
