@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio-Query-Parser.
-# Copyright (C) 2014 CERN.
+# Copyright (C) 2014, 2015 CERN.
 #
 # Invenio-Query-Parser is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -208,4 +208,8 @@ SPIRES_KEYWORDS = {
     # References
     'refs': 'refersto',
     'refersto': 'refersto',
+    # arXiv
+    'arXiv': 'arXiv',
+    # year
+    'year': 'year'
 }

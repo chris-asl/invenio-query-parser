@@ -91,7 +91,9 @@ class Or(object):
 
 
 class KeywordRule(LeafRule):
-    grammar = attr('value', re.compile(r"[\w\d]+(\.[\w\d]+)*"))
+    from .contrib.spires.config import SPIRES_KEYWORDS
+    grammar = attr('value', re.compile(r"(%s)\b" % "|".join(
+        SPIRES_KEYWORDS.keys()), re.I))
 
 
 class NestedKeywordsRule(LeafRule):
@@ -183,8 +185,18 @@ class Query(ListRule):
     pass
 
 
+class NotKeywordValue(LeafRule):
+    from .contrib.spires.config import SPIRES_KEYWORDS
+    grammar = attr('value', re.compile(r'\b(?!%s)\S+\b:' % "|".join(
+        [x + ":" for x in SPIRES_KEYWORDS.keys()])))
+
+
 class KeywordQuery(BinaryRule):
     pass
+
+
+class EmptyQueryRule(LeafRule):
+    grammar = attr('value', re.compile(r'\s*'))
 
 
 KeywordQuery.grammar = [
@@ -211,7 +223,7 @@ KeywordQuery.grammar = [
 
 
 class SimpleQuery(UnaryRule):
-    grammar = attr('op', [KeywordQuery, ValueQuery])
+    grammar = attr('op', [NotKeywordValue, KeywordQuery, ValueQuery])
 
 
 class ParenthesizedQuery(UnaryRule):
@@ -295,10 +307,6 @@ Query.grammar = attr('children', (
         ]
     )),
 ))
-
-
-class EmptyQueryRule(LeafRule):
-    grammar = attr('value', re.compile(r'\s*'))
 
 
 class Main(UnaryRule):

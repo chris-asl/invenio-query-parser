@@ -182,3 +182,7 @@ class RegexValue(Leaf):
 
 class EmptyQuery(Leaf):
     pass
+
+
+class NotKeywordValue(Leaf):
+    pass
