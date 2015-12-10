@@ -92,7 +92,7 @@ class Or(object):
 
 class KeywordRule(LeafRule):
     from .contrib.spires.config import SPIRES_KEYWORDS
-    grammar = attr('value', re.compile(r"(%s)\b" % "|".join(
+    grammar = attr('value', re.compile(r"(\d\d\d\w{0,3}|%s)\b" % "|".join(
         SPIRES_KEYWORDS.keys()), re.I))
 
 
@@ -187,8 +187,11 @@ class Query(ListRule):
 
 class NotKeywordValue(LeafRule):
     from .contrib.spires.config import SPIRES_KEYWORDS
-    grammar = attr('value', re.compile(r'\b(?!%s)\S+\b:' % "|".join(
-        [x + ":" for x in SPIRES_KEYWORDS.keys()])))
+    # Note: \d\d\d.?.?.? is regexp for MARC queries
+    grammar = attr('value',
+                   re.compile(r'\b(?!\d\d\d\w{0,3}|%s)\S+\b:' %
+                              "|".join([x + ":"
+                                        for x in SPIRES_KEYWORDS.keys()])))
 
 
 class KeywordQuery(BinaryRule):
