@@ -24,6 +24,8 @@
 """Default configuration of SPIRES parser."""
 
 SPIRES_KEYWORDS = {
+    'earliest_date': 'earliest_date',
+    'doc_type': 'doc_type',
     # address
     'address': 'address',
     # affiliation
@@ -211,5 +213,6 @@ SPIRES_KEYWORDS = {
     # arXiv
     'arXiv': 'arXiv',
     # year
-    'year': 'year'
+    'year': 'year',
+    'control_number': 'recid',
 }
