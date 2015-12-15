@@ -292,13 +292,15 @@ class TestParser(object):
         #  KeywordOp(Keyword('refersto'),
         #            KeywordOp(Keyword('refersto'),
         #                      KeywordOp(Keyword('author'), Value('Ellis'))))),
+
+
         # Keyword-like values
         ("auzor:me",
-         AndOp(Value('auzor:'), ValueQuery(Value('me')))),
-        ("high-energies: annual",
-         AndOp(Value('high-energies:'), ValueQuery(Value('annual')))),
+         AndOp(ValueQuery(Value('auzor:')), ValueQuery(Value('me')))),
+        ("high-energy: bar",
+         AndOp(ValueQuery(Value('high-energy:')), ValueQuery(Value('bar')))),
         ("au-thor me:",
-         AndOp(ValueQuery(Value('au-thor')), Value('me:'))),
+         AndOp(ValueQuery(Value('au-thor')), ValueQuery(Value('me:')))),
 
 
         # Spires syntax #

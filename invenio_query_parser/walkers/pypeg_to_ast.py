@@ -106,7 +106,7 @@ class PypegConverter(object):
 
     @visitor(parser.NotKeywordValue)
     def visit(self, node):
-        return ast.Value(node.value)
+        return ast.ValueQuery(ast.Value(node.value))
 
     @visitor(parser.SimpleQuery)
     def visit(self, node, child):
