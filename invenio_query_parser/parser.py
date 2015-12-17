@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio-Query-Parser.
-# Copyright (C) 2014, 2015 CERN.
+# Copyright (C) 2014, 2015, 2016 CERN.
 #
 # Invenio-Query-Parser is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -32,7 +32,6 @@ from pypeg2 import Keyword, Literal, attr, maybe_some, omit, optional, some
 
 from . import ast
 from ._compat import string_types
-
 
 # pylint: disable=C0321,R0903
 
@@ -91,9 +90,10 @@ class Or(object):
 
 
 class KeywordRule(LeafRule):
-    from .contrib.spires.config import SPIRES_KEYWORDS
+    from .utils import generate_keywords
+    keywords_list = generate_keywords()
     grammar = attr('value', re.compile(r"(\d\d\d\w{0,3}|%s)\b" % "|".join(
-        SPIRES_KEYWORDS.keys()), re.I))
+        keywords_list), re.I))
 
 
 class NestedKeywordsRule(LeafRule):
@@ -186,12 +186,13 @@ class Query(ListRule):
 
 
 class NotKeywordValue(LeafRule):
-    from .contrib.spires.config import SPIRES_KEYWORDS
+    from .utils import generate_keywords
+    keywords_list = generate_keywords()
     # Note: \d\d\d.?.?.? is regexp for MARC queries
     grammar = attr('value',
                    re.compile(r'\b(?!\d\d\d\w{0,3}|%s)\S+\b:' %
                               "|".join([x + ":"
-                                        for x in SPIRES_KEYWORDS.keys()])))
+                                        for x in keywords_list])))
 
 
 class KeywordQuery(BinaryRule):

@@ -238,11 +238,11 @@ class TestParser(object):
         ("(author:bar) or (author:bar )",
          OrOp(KeywordOp(Keyword('author'), Value('bar')),
               KeywordOp(Keyword('author'), Value('bar')))),
-        ("(author:bar1 or a:bar2) and (title:bar3 or t:bar4)",
+        ("(author:bar1 or author:bar2) and (title:bar3 or title:bar4)",
          AndOp(OrOp(KeywordOp(Keyword('author'), Value('bar1')),
-                    KeywordOp(Keyword('a'), Value('bar2'))),
+                    KeywordOp(Keyword('author'), Value('bar2'))),
                OrOp(KeywordOp(Keyword('title'), Value('bar3')),
-                    KeywordOp(Keyword('t'), Value('bar4'))))),
+                    KeywordOp(Keyword('title'), Value('bar4'))))),
         ("author:bar and author:bar and author:bar",
             AndOp(AndOp(KeywordOp(Keyword('author'), Value('bar')),
                         KeywordOp(Keyword('author'), Value('bar'))),
@@ -272,10 +272,11 @@ class TestParser(object):
             OrOp(
                 KeywordOp(Keyword('author'), Value('bar')),
                 NotOp(KeywordOp(Keyword('author'), Value('bar'))))),
-        ("bar + (not a:\"Ba, r\")",
+        ("bar + (not author:\"Ba, r\")",
             AndOp(
                 ValueQuery(Value('bar')),
-                NotOp(KeywordOp(Keyword('a'), DoubleQuotedValue('Ba, r'))))),
+                NotOp(KeywordOp(Keyword('author'),
+                                DoubleQuotedValue('Ba, r'))))),
         ("bar | -author:bar",
             OrOp(
                 ValueQuery(Value('bar')),
