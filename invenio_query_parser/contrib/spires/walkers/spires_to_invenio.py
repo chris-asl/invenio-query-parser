@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio-Query-Parser.
-# Copyright (C) 2014 CERN.
+# Copyright (C) 2014, 2015, 2016 CERN.
 #
 # Invenio-Query-Parser is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -102,6 +102,8 @@ class SpiresToInvenio(object):
     @visitor(SpiresOp)
     def visit(self, node, left, right):
         left.value = SPIRES_KEYWORDS[left.value]
+        if left.value is 'author':
+            return ast.KeywordOp(left, ast.DoubleQuotedValue(right.value))
         return ast.KeywordOp(left, right)
 
     # pylint: enable=W0612,E0102
