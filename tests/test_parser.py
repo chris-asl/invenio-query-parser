@@ -327,6 +327,8 @@ class TestParser(object):
         # Simple query with spaces
         ("find t quark   ",
          SpiresOp(Keyword('t'), Value('quark'))),
+        ("find t quark and",
+         AndOp(SpiresOp(Keyword('t'), Value('quark')), EmptyQuery(''))),
         ("   find t quark   ",
          SpiresOp(Keyword('t'), Value('quark'))),
         ("find t quark ellis  ",
