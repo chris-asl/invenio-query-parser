@@ -21,13 +21,13 @@
 # granted to it by virtue of its status as an Intergovernmental Organization
 # or submit itself to any jurisdiction.
 
-"""Version information for *Invenio-Query-Parser* package.
+"""Default configuration of SPIRES parser."""
 
-This file is imported by ``invenio_query_parser.__init__``, and parsed by
-``setup.py`` as well as ``docs/conf.py``.
-"""
-
-# Do not change the format of this next line. Doing so risks breaking
-# setup.py and docs/conf.py
-
-__version__ = "0.3.1.dev20160121"
+DEFAULT_KEYWORDS = {
+    "author": ["authors.full_name"],
+    "title": ["titles.title", "titles.title.raw^2"],
+    "cited": [],
+    "year": [],
+    "arXiv": [],
+    "refersto": []
+}

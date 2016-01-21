@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio-Query-Parser.
-# Copyright (C) 2014 CERN.
+# Copyright (C) 2014, 2015, 2016 CERN.
 #
 # Invenio-Query-Parser is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -23,8 +23,8 @@
 
 """SPIRES parser implementation."""
 
-from invenio_query_parser.parser import _
 from invenio_query_parser.parser import *
+from invenio_query_parser.parser import _
 
 from .config import SPIRES_KEYWORDS
 
@@ -172,6 +172,7 @@ class SpiresAndQuery(UnaryRule):
             (omit(Whitespace), attr('op', SpiresSimpleQuery)),
             (omit(_), attr('op', SpiresParenthesizedQuery)),
             (omit(Whitespace), attr('op', SpiresValueQuery)),
+            (omit(re.compile(r".*", re.I)), attr('op', EmptyQueryRule)),
         ]
     )
 
@@ -183,6 +184,7 @@ class SpiresOrQuery(UnaryRule):
             (omit(Whitespace), attr('op', SpiresSimpleQuery)),
             (omit(_), attr('op', SpiresParenthesizedQuery)),
             (omit(Whitespace), attr('op', SpiresValueQuery)),
+            (omit(re.compile(r".*", re.I)), attr('op', EmptyQueryRule)),
         ]
     )
 
@@ -224,6 +226,11 @@ SpiresKeywordQuery.grammar = [
     ),
     (
         attr('left', KeywordRule),
+        omit(_, Literal(':'), _),
+        attr('right', Value)
+    ),
+    (
+        attr('left', SpiresKeywordRule),
         omit(_, Literal(':'), _),
         attr('right', Value)
     ),
