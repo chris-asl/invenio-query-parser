@@ -31,3 +31,7 @@ DEFAULT_KEYWORDS = {
     "arXiv": [],
     "refersto": []
 }
+
+JSON_SCHEMA_PATHS = []
+
+ELASTIC_MAPPINGS_PATHS = []

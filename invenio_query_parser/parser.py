@@ -90,8 +90,8 @@ class Or(object):
 
 
 class KeywordRule(LeafRule):
-    from .utils import generate_keywords
-    keywords_list = generate_keywords()
+    from .utils import generate_valid_keywords
+    keywords_list = generate_valid_keywords()
     grammar = attr('value', re.compile(r"(\d\d\d\w{0,3}|%s)\b" % "|".join(
         keywords_list), re.I))
 
@@ -186,8 +186,8 @@ class Query(ListRule):
 
 
 class NotKeywordValue(LeafRule):
-    from .utils import generate_keywords
-    keywords_list = generate_keywords()
+    from .utils import generate_valid_keywords
+    keywords_list = generate_valid_keywords()
     # Note: \d\d\d.?.?.? is regexp for MARC queries
     grammar = attr('value',
                    re.compile(r'\b(?!\d\d\d\w{0,3}|%s)\S+\b:' %
