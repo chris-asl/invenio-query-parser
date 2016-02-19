@@ -231,6 +231,11 @@ SpiresKeywordQuery.grammar = [
     ),
     (
         attr('left', SpiresKeywordRule),
+        omit(_, Literal(':'), _),
+        attr('right', Value)
+    ),
+    (
+        attr('left', SpiresKeywordRule),
         omit(Whitespace),
         attr('right', [
             GreaterEqualQuery,

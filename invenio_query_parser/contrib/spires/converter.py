@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio-Query-Parser.
-# Copyright (C) 2014 CERN.
+# Copyright (C) 2014, 2015 CERN.
 #
 # Invenio-Query-Parser is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -23,12 +23,12 @@
 
 """SPIRES to Invenio query converter."""
 
-import pypeg2
-
 from invenio_query_parser.walkers import repr_printer
 
-from .walkers import pypeg_to_ast
+import pypeg2
+
 from .parser import Main
+from .walkers import pypeg_to_ast
 
 
 class SpiresToInvenioSyntaxConverter(object):
