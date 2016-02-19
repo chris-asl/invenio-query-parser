@@ -293,7 +293,7 @@ class TestParser(object):
         ("refersto:(foo:bar)",
          KeywordOp(Keyword('refersto'), KeywordOp(Keyword('foo'),
                                                   Value('bar')))),
-        ("refersto:(foo:bar and Ellis)",
+        ("refersto:(foo:bar AND Ellis)",
          KeywordOp(Keyword('refersto'),
                    AndOp(KeywordOp(Keyword('foo'), Value('bar')),
                          ValueQuery(Value('Ellis'))))),
@@ -327,7 +327,7 @@ class TestParser(object):
         # Simple query with spaces
         ("find t quark   ",
          SpiresOp(Keyword('t'), Value('quark'))),
-        ("find t quark and",
+        ("find t quark AND",
          AndOp(SpiresOp(Keyword('t'), Value('quark')), EmptyQuery(''))),
         ("   find t quark   ",
          SpiresOp(Keyword('t'), Value('quark'))),
