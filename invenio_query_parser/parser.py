@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio-Query-Parser.
-# Copyright (C) 2014, 2015, 2016 CERN.
+# Copyright (C) 2014, 2015 CERN.
 #
 # Invenio-Query-Parser is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -70,22 +70,22 @@ _ = optional(Whitespace)
 
 class Not(object):
     grammar = omit([
-        omit(re.compile(r"AND\s+NOT")),
-        re.compile(r"NOT"),
+        omit(re.compile(r"and\s+not", re.I)),
+        re.compile(r"not", re.I),
         Literal('-'),
     ])
 
 
 class And(object):
     grammar = omit([
-        re.compile(r"AND"),
+        re.compile(r"and", re.I),
         Literal('+'),
     ])
 
 
 class Or(object):
     grammar = omit([
-        re.compile(r"OR"),
+        re.compile(r"or", re.I),
         Literal('|'),
     ])
 
@@ -203,12 +203,17 @@ KeywordQuery.grammar = [
     ),
     (
         attr('left', KeywordRule),
-        omit(Literal(':'), _),
+        omit(_, Literal(':'), _),
+        attr('right', KeywordQuery)
+    ),
+    (
+        attr('left', KeywordRule),
+        omit(_, Literal(':'), _),
         attr('right', Value)
     ),
     (
         attr('left', KeywordRule),
-        omit(Literal(':'), _),
+        omit(_, Literal(':'), _),
         attr('right', Query)
     ),
 ]
