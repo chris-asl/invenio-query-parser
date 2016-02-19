@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio-Query-Parser.
-# Copyright (C) 2014, 2016 CERN.
+# Copyright (C) 2014 CERN.
 #
 # Invenio-Query-Parser is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -105,7 +105,7 @@ class TestElasticsearchDSL(object):
     )
 
     test_or_query = (
-        'boo:bar OR baz',
+        'boo:bar or baz',
         None,
         {"bool": {"should": [{"multi_match": {"fields": ["boo"],
                                               "query": "bar", }},
@@ -114,7 +114,7 @@ class TestElasticsearchDSL(object):
     )
 
     test_not_query = (
-        'boo:bar AND NOT boo:bar',
+        'boo:bar and not boo:bar',
         None,
         {'bool': {
             'must': [{'multi_match': {'fields': ['boo'], 'query': 'bar'}}],
@@ -123,7 +123,7 @@ class TestElasticsearchDSL(object):
     )
 
     test_combined_bool_query = (
-        '((aaa AND bbb) AND NOT ccc) OR ddd',
+        '((aaa and bbb) and not ccc) or ddd',
         None,
         {'bool': {'should': [
             {'bool': {'must': [
@@ -217,6 +217,12 @@ class TestElasticsearchDSL(object):
             }
         })
 
+    test_second_order_operator = (
+        'first:second:bar',
+        None,
+        RuntimeError
+    )
+
     test_regex_for_all_should_fail = (
         '/bar/',
         None,
@@ -272,6 +278,7 @@ class TestElasticsearchDSL(object):
         test_multiple_range_op,
         test_keyword_with_regex,
         test_keywords_with_regex,
+        # test_second_order_operator,
         test_regex_for_all_should_fail,
         test_keywords_to_fields
     )

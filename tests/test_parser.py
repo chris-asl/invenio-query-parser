@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio-Query-Parser.
-# Copyright (C) 2014, 2015, 2016 CERN.
+# Copyright (C) 2014, 2015 CERN.
 #
 # Invenio-Query-Parser is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -85,7 +85,7 @@ class TestParser(object):
          KeywordOp(Keyword('999C5'), Value('bar'))),
         ("999__u: bar",
          KeywordOp(Keyword('999__u'), Value('bar'))),
-        ("  foo:  bar  ",
+        ("  foo  :  bar  ",
          KeywordOp(Keyword('foo'), Value('bar'))),
 
         # Quoted strings
@@ -160,29 +160,31 @@ class TestParser(object):
          KeywordOp(Keyword('foo'), Value("Lemaître"))),
         ('foo: "Lemaître"',
          KeywordOp(Keyword('foo'), DoubleQuotedValue("Lemaître"))),
+        ("refersto:hep-th/0201100",
+         KeywordOp(Keyword('refersto'), Value("hep-th/0201100"))),
 
         # Combined queries
         ("foo:bar foo:bar",
          AndOp(KeywordOp(Keyword('foo'), Value('bar')),
                KeywordOp(Keyword('foo'), Value('bar')))),
-        ("foo:bar AND foo:bar",
+        ("foo:bar and foo:bar",
          AndOp(KeywordOp(Keyword('foo'), Value('bar')),
                KeywordOp(Keyword('foo'), Value('bar')))),
         ("foo:bar AND foo:bar",
          AndOp(KeywordOp(Keyword('foo'), Value('bar')),
                KeywordOp(Keyword('foo'), Value('bar')))),
-        ("foo AND bar",
+        ("foo and bar",
          AndOp(ValueQuery(Value('foo')), ValueQuery(Value('bar')))),
-        ("foo:bar OR foo:bar",
+        ("foo:bar or foo:bar",
          OrOp(KeywordOp(Keyword('foo'), Value('bar')),
               KeywordOp(Keyword('foo'), Value('bar')))),
         ("foo:bar | foo:bar",
          OrOp(KeywordOp(Keyword('foo'), Value('bar')),
               KeywordOp(Keyword('foo'), Value('bar')))),
-        ("foo:bar NOT foo:bar",
+        ("foo:bar not foo:bar",
          AndOp(KeywordOp(Keyword('foo'), Value('bar')),
                NotOp(KeywordOp(Keyword('foo'), Value('bar'))))),
-        ("foo:bar AND NOT foo:bar",
+        ("foo:bar and not foo:bar",
          AndOp(KeywordOp(Keyword('foo'), Value('bar')),
                NotOp(KeywordOp(Keyword('foo'), Value('bar'))))),
         ("foo:bar -foo:bar",
@@ -197,16 +199,16 @@ class TestParser(object):
          KeywordOp(Keyword('foo'), Value('bar'))),
         ("(((foo:bar)))",
          KeywordOp(Keyword('foo'), Value('bar'))),
-        ("(foo:bar) OR foo:bar",
+        ("(foo:bar) or foo:bar",
          OrOp(KeywordOp(Keyword('foo'), Value('bar')),
               KeywordOp(Keyword('foo'), Value('bar')))),
-        ("foo:bar OR (foo:bar)",
+        ("foo:bar or (foo:bar)",
          OrOp(KeywordOp(Keyword('foo'), Value('bar')),
               KeywordOp(Keyword('foo'), Value('bar')))),
-        ("(foo:bar) OR (foo:bar)",
+        ("(foo:bar) or (foo:bar)",
          OrOp(KeywordOp(Keyword('foo'), Value('bar')),
               KeywordOp(Keyword('foo'), Value('bar')))),
-        ("(foo:bar)OR(foo:bar)",
+        ("(foo:bar)or(foo:bar)",
          OrOp(KeywordOp(Keyword('foo'), Value('bar')),
               KeywordOp(Keyword('foo'), Value('bar')))),
         ("(foo:bar)|(foo:bar)",
@@ -215,18 +217,18 @@ class TestParser(object):
         ("(foo:bar)| (foo:bar)",
          OrOp(KeywordOp(Keyword('foo'), Value('bar')),
               KeywordOp(Keyword('foo'), Value('bar')))),
-        ("( foo:bar) OR ( foo:bar)",
+        ("( foo:bar) or ( foo:bar)",
          OrOp(KeywordOp(Keyword('foo'), Value('bar')),
               KeywordOp(Keyword('foo'), Value('bar')))),
-        ("(foo:bar) OR (foo:bar )",
+        ("(foo:bar) or (foo:bar )",
          OrOp(KeywordOp(Keyword('foo'), Value('bar')),
               KeywordOp(Keyword('foo'), Value('bar')))),
-        ("(foo1:bar1 OR foo2:bar2) AND (foo3:bar3 OR foo4:bar4)",
+        ("(foo1:bar1 or foo2:bar2) and (foo3:bar3 or foo4:bar4)",
          AndOp(OrOp(KeywordOp(Keyword('foo1'), Value('bar1')),
                     KeywordOp(Keyword('foo2'), Value('bar2'))),
                OrOp(KeywordOp(Keyword('foo3'), Value('bar3')),
                     KeywordOp(Keyword('foo4'), Value('bar4'))))),
-        ("foo:bar AND foo:bar AND foo:bar",
+        ("foo:bar and foo:bar and foo:bar",
             AndOp(AndOp(KeywordOp(Keyword('foo'), Value('bar')),
                         KeywordOp(Keyword('foo'), Value('bar'))),
                   KeywordOp(Keyword('foo'), Value('bar')))),
@@ -235,11 +237,11 @@ class TestParser(object):
                            ValueQuery(Value('bbb'))),
                      NotOp(ValueQuery(Value('ccc')))),
                ValueQuery(Value('ddd')))),
-        ("foo:bar NOT foo:bar",
+        ("foo:bar not foo:bar",
             AndOp(
                 KeywordOp(Keyword('foo'), Value('bar')),
                 NotOp(KeywordOp(Keyword('foo'), Value('bar'))))),
-        ("foo:bar AND -foo:bar",
+        ("foo:bar and -foo:bar",
             AndOp(
                 KeywordOp(Keyword('foo'), Value('bar')),
                 NotOp(KeywordOp(Keyword('foo'), Value('bar'))))),
@@ -247,15 +249,15 @@ class TestParser(object):
             NotOp(KeywordOp(Keyword('foo'), Value('bar')))),
         ("-foo",
             NotOp(ValueQuery(Value('foo')))),
-        ("foo:bar OR -foo:bar",
+        ("foo:bar or -foo:bar",
             OrOp(
                 KeywordOp(Keyword('foo'), Value('bar')),
                 NotOp(KeywordOp(Keyword('foo'), Value('bar'))))),
-        ("foo:bar OR NOT foo:bar",
+        ("foo:bar or not foo:bar",
             OrOp(
                 KeywordOp(Keyword('foo'), Value('bar')),
                 NotOp(KeywordOp(Keyword('foo'), Value('bar'))))),
-        ("bar + (NOT foo:\"Ba, r\")",
+        ("bar + (not foo:\"Ba, r\")",
             AndOp(
                 ValueQuery(Value('bar')),
                 NotOp(KeywordOp(Keyword('foo'), DoubleQuotedValue('Ba, r'))))),
@@ -266,6 +268,7 @@ class TestParser(object):
 
 
         # Nested searches
+
         # FIXME: These two tests should be restored when
         # we implement nested keywords functionality on labs.
         # ("refersto:author:Ellis",
@@ -278,7 +281,7 @@ class TestParser(object):
         ("refersto:(foo:bar)",
          KeywordOp(Keyword('refersto'), KeywordOp(Keyword('foo'),
                                                   Value('bar')))),
-        ("refersto:(foo:bar AND Ellis)",
+        ("refersto:(foo:bar and Ellis)",
          KeywordOp(Keyword('refersto'),
                    AndOp(KeywordOp(Keyword('foo'), Value('bar')),
                          ValueQuery(Value('Ellis'))))),
@@ -320,55 +323,55 @@ class TestParser(object):
          SpiresOp(Keyword('t'), Value('quark ellis'))),
 
         # Combined queries
-        ("find t quark AND a ellis",
+        ("find t quark and a ellis",
          AndOp(SpiresOp(Keyword('t'), Value('quark')),
                SpiresOp(Keyword('a'), Value('ellis')))),
-        ("find t quark OR a ellis",
+        ("find t quark or a ellis",
          OrOp(SpiresOp(Keyword('t'), Value('quark')),
               SpiresOp(Keyword('a'), Value('ellis')))),
-        ("find (t aaa OR t bbb OR t ccc)OR t ddd",
+        ("find (t aaa or t bbb or t ccc)or t ddd",
          OrOp(OrOp(OrOp(SpiresOp(Keyword('t'), Value('aaa')),
                         SpiresOp(Keyword('t'), Value('bbb'))),
                    SpiresOp(Keyword('t'), Value('ccc'))),
               SpiresOp(Keyword('t'), Value('ddd')))),
-        ("find a:richter AND t quark",
+        ("find a:richter and t quark",
          AndOp(SpiresOp(Keyword('a'), Value('richter')),
                SpiresOp(Keyword('t'), Value('quark')))),
-        ("find (t quark) OR (a ellis)",
+        ("find (t quark) or (a ellis)",
          OrOp(SpiresOp(Keyword('t'), Value('quark')),
               SpiresOp(Keyword('a'), Value('ellis')))),
-        ("find (t quark OR a ellis)",
+        ("find (t quark or a ellis)",
          OrOp(SpiresOp(Keyword('t'), Value('quark')),
               SpiresOp(Keyword('a'), Value('ellis')))),
-        ("find ((t quark) OR (a ellis))",
+        ("find ((t quark) or (a ellis))",
          OrOp(SpiresOp(Keyword('t'), Value('quark')),
               SpiresOp(Keyword('a'), Value('ellis')))),
-        ("find (( t quark )OR( a ellis ))",
+        ("find (( t quark )or( a ellis ))",
          OrOp(SpiresOp(Keyword('t'), Value('quark')),
               SpiresOp(Keyword('a'), Value('ellis')))),
-        ("find (( t quark )OR( a:ellis ))",
+        ("find (( t quark )or( a:ellis ))",
          OrOp(SpiresOp(Keyword('t'), Value('quark')),
               SpiresOp(Keyword('a'), Value('ellis')))),
-        ("find collaboration LIGO AND a whiting, b f AND a Weiss, r",
+        ("find collaboration LIGO and a whiting, b f and a Weiss, r",
          AndOp(
              AndOp(
                  SpiresOp(Keyword('collaboration'), Value('LIGO')),
                  SpiresOp(Keyword('a'), Value('whiting, b f'))),
              SpiresOp(Keyword('a'), Value('Weiss, r')))),
-        ("find (collaboration LIGO AND a whiting, b f) AND a Weiss, r",
+        ("find (collaboration LIGO and a whiting, b f) and a Weiss, r",
          AndOp(
              AndOp(
                  SpiresOp(Keyword('collaboration'), Value('LIGO')),
                  SpiresOp(Keyword('a'), Value('whiting, b f'))),
              SpiresOp(Keyword('a'), Value('Weiss, r')))),
-        ("find collaboration LIGO AND (a whiting, b f AND a Weiss, r)",
+        ("find collaboration LIGO and (a whiting, b f and a Weiss, r)",
          AndOp(
              SpiresOp(Keyword('collaboration'), Value('LIGO')),
              AndOp(
                  SpiresOp(Keyword('a'), Value('whiting, b f')),
                  SpiresOp(Keyword('a'), Value('Weiss, r'))))),
-        ("find (aff IMPERIAL AND d <1989 AND a ELLISON) OR"
-         "(a ELLISON AND aff RIVERSIDE AND tc P)",
+        ("find (aff IMPERIAL and d <1989 and a ELLISON) or"
+         "(a ELLISON and aff RIVERSIDE and tc P)",
          OrOp(
              AndOp(
                  AndOp(
@@ -381,8 +384,8 @@ class TestParser(object):
                      SpiresOp(Keyword('aff'), Value('RIVERSIDE'))),
                  SpiresOp(Keyword('tc'), Value('P'))))
          ),
-        ("find (a ELLISON AND aff RIVERSIDE AND tc P) OR"
-         "(aff IMPERIAL AND d <1989 AND a ELLISON)",
+        ("find (a ELLISON and aff RIVERSIDE and tc P) or"
+         "(aff IMPERIAL and d <1989 and a ELLISON)",
          OrOp(
              AndOp(
                  AndOp(
@@ -397,32 +400,74 @@ class TestParser(object):
          ),
 
         # Implicit keyword
-        ("find a john AND ellis",
+        ("find a john and ellis",
          AndOp(SpiresOp(Keyword('a'), Value('john')),
                SpiresOp(Keyword('a'), Value('ellis')))),
-        ("find a john AND (ellis OR albert)",
+        ("find a john and (ellis or albert)",
          AndOp(SpiresOp(Keyword('a'), Value('john')),
                OrOp(ValueQuery(Value('ellis')),
                     ValueQuery(Value('albert'))))),
-        ("find a john AND t quark OR higgs",
+        ("find a john and t quark or higgs",
          OrOp(AndOp(SpiresOp(Keyword('a'), Value('john')),
                     SpiresOp(Keyword('t'), Value('quark'))),
               SpiresOp(Keyword('t'), Value('higgs')))),
-        ("find john AND t quark OR higgs",
+        ("find john and t quark or higgs",
          OrOp(AndOp(ValueQuery(Value('john')),
                     SpiresOp(Keyword('t'), Value('quark'))),
               SpiresOp(Keyword('t'), Value('higgs')))),
-        ("find a l everett OR t light higgs AND j phys.rev.lett. AND "
+        ("find a l everett or t light higgs and j phys.rev.lett. and "
          "primarch hep-ph",
          AndOp(AndOp(OrOp(SpiresOp(Keyword('a'), Value('l everett')),
                           SpiresOp(Keyword('t'), Value('light higgs'))),
                      SpiresOp(Keyword('j'), Value('phys.rev.lett.'))),
                SpiresOp(Keyword('primarch'), Value('hep-ph')))),
-        ("find a l everett OR t light higgs AND j phys.rev.lett. AND monkey",
+        ("find a l everett or t light higgs and j phys.rev.lett. and monkey",
          AndOp(AndOp(OrOp(SpiresOp(Keyword('a'), Value('l everett')),
                           SpiresOp(Keyword('t'), Value('light higgs'))),
                      SpiresOp(Keyword('j'), Value('phys.rev.lett.'))),
                SpiresOp(Keyword('j'), Value('monkey')))),
+
+        # Nested searches
+        ("find refersto a ellis",
+         SpiresOp(Keyword('refersto'), SpiresOp(Keyword('a'),
+                                                Value('ellis')))),
+        ("find refersto j Phys.Rev.Lett.",
+         SpiresOp(Keyword('refersto'), SpiresOp(Keyword('j'),
+                                                Value('Phys.Rev.Lett.')))),
+        ("find refersto a ellis, j",
+         SpiresOp(Keyword('refersto'), SpiresOp(Keyword('a'),
+                                                Value('ellis, j')))),
+        ("find refersto ellis, j",
+         SpiresOp(Keyword('refersto'), ValueQuery(Value('ellis, j')))),
+        ("find a parke, s j and refersto author witten",
+         AndOp(SpiresOp(Keyword('a'), Value("parke, s j")),
+               SpiresOp(Keyword('refersto'), SpiresOp(Keyword('author'),
+                                                      Value('witten'))))),
+        ("fin af oxford u. and refersto title muon*",
+         AndOp(SpiresOp(Keyword('af'), Value("oxford u.")),
+               SpiresOp(Keyword('refersto'),
+                        SpiresOp(Keyword('title'), Value('muon*'))))),
+        ("find refersto a parke or refersto a lykken and a witten",
+         AndOp(OrOp(SpiresOp(Keyword('refersto'),
+                             SpiresOp(Keyword('a'), Value("parke"))),
+                    SpiresOp(Keyword('refersto'),
+                             SpiresOp(Keyword('a'), Value('lykken')))),
+               SpiresOp(Keyword('a'), Value('witten')))),
+        ("find refersto:refersto:author:maldacena",
+         SpiresOp(Keyword('refersto'),
+                  SpiresOp(Keyword('refersto'),
+                           SpiresOp(Keyword('author'),
+                                    Value('maldacena'))))),
+        ("find refersto hep-th/9711200 and t nucl*",
+         AndOp(SpiresOp(Keyword('refersto'),
+                        ValueQuery(Value("hep-th/9711200"))),
+               SpiresOp(Keyword('t'), Value('nucl*')))),
+        ("find refersto:a ellis",
+         SpiresOp(Keyword('refersto'), SpiresOp(Keyword('a'),
+                                                Value('ellis')))),
+        ("find refersto: a ellis",
+         SpiresOp(Keyword('refersto'), SpiresOp(Keyword('a'),
+                                                Value('ellis')))),
 
         # Greater, Lower Ops
         ("find date > 1984",
@@ -478,7 +523,7 @@ class TestParser(object):
          SpiresOp(Keyword('a'), Value('Oleg Antipin'))),
         ("FIND a Oleg Antipin",
          SpiresOp(Keyword('a'), Value('Oleg Antipin'))),
-        ("f a rodrigo,g AND NOT rodrigo,j",
+        ("f a rodrigo,g and not rodrigo,j",
          AndOp(SpiresOp(Keyword('a'), Value('rodrigo,g')),
                NotOp(SpiresOp(Keyword('a'), Value('rodrigo,j'))))),
 
