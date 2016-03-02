@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio-Query-Parser.
-# Copyright (C) 2014, 2015 CERN.
+# Copyright (C) 2014, 2015, 2016 CERN.
 #
 # Invenio-Query-Parser is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -441,6 +441,12 @@ class TestParser(object):
                           SpiresOp(Keyword('t'), Value('light higgs'))),
                      SpiresOp(Keyword('j'), Value('phys.rev.lett.'))),
                SpiresOp(Keyword('j'), Value('monkey')))),
+
+        # Range Queries
+        ("find topcite 200->300",
+         SpiresOp(Keyword('topcite'), RangeOp(Value('200'), Value('300')))),
+        ("find topcite 200+",
+         SpiresOp(Keyword('topcite'), GreaterEqualOp(Value('200')))),
 
         # Nested searches
         ("find refersto a ellis",
