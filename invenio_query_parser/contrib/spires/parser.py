@@ -243,6 +243,7 @@ SpiresKeywordQuery.grammar = [
             LowerEqualQuery,
             LowerQuery,
             RangeOp,
+            WildcardQuery,
             SpiresValue
         ])
     ),

@@ -79,6 +79,10 @@ class SpiresToInvenio(object):
     def visit(self, node):
         return type(node)(node.value)
 
+    @visitor(ast.WildcardQuery)
+    def visit(self, node):
+        return type(node)(node.value)
+
     @visitor(ast.ValueQuery)
     def visit(self, node, op):
         return type(node)(op)
