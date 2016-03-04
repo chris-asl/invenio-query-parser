@@ -103,6 +103,7 @@ class Leaf(object):
 # Concrete classes
 
 class BinaryKeywordBase(BinaryOp):
+
     @property
     def keyword(self):
         # FIXME evaluate if it's possible to move it out to spires module
@@ -124,6 +125,7 @@ class OrOp(BinaryKeywordBase):
 
 
 class NotOp(UnaryOp):
+
     @property
     def keyword(self):
         return getattr(self.op, 'keyword')
@@ -166,6 +168,10 @@ class Keyword(Leaf):
 
 
 class Value(Leaf):
+    pass
+
+
+class WildcardQuery(Leaf):
     pass
 
 
