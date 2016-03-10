@@ -105,7 +105,7 @@ class SpiresToInvenio(object):
 
     @visitor(SpiresOp)
     def visit(self, node, left, right):
-        left.value = SPIRES_KEYWORDS[left.value]
+        left.value = SPIRES_KEYWORDS[left.value.lower()]
         if left.value is 'author':
             return ast.KeywordOp(left, ast.DoubleQuotedValue(right.value))
         return ast.KeywordOp(left, right)

@@ -98,7 +98,7 @@ class TestParser(object):
         ("999: bar",
          KeywordOp(Keyword('999'), Value('bar'))),
         ("999C5: bar",
-         KeywordOp(Keyword('999C5'), Value('bar'))),
+         KeywordOp(Keyword('999c5'), Value('bar'))),
         ("999__u: bar",
          KeywordOp(Keyword('999__u'), Value('bar'))),
         ("  foo  :  bar  ",
@@ -281,6 +281,16 @@ class TestParser(object):
             OrOp(
                 ValueQuery(Value('bar')),
                 NotOp(KeywordOp(Keyword('foo'), Value('bar'))))),
+
+
+        # Case Sensitivity
+
+        ("author: LEONTSINIS",
+         KeywordOp(Keyword('author'), Value('LEONTSINIS'))),
+        ("AUTHOR: LEONTSINIS",
+         KeywordOp(Keyword('author'), Value('LEONTSINIS'))),
+        ("autHoR: LEONTSINIS",
+         KeywordOp(Keyword('author'), Value('LEONTSINIS'))),
 
 
         # Nested searches
@@ -527,7 +537,7 @@ class TestParser(object):
 
         # Popular queries
         ("arXiv:1004.0648",
-         KeywordOp(Keyword('arXiv'), Value("1004.0648"))),
+         KeywordOp(Keyword('arxiv'), Value("1004.0648"))),
         ("find ea chowdhury, borun d",
          SpiresOp(Keyword('ea'), Value("chowdhury, borun d"))),
         ("(author:'Hiroshi Okada' OR (author:'H Okada' hep-ph) OR "
@@ -556,6 +566,12 @@ class TestParser(object):
          KeywordOp(Keyword('foo.bar'), Value('baz'))),
         ("a.b.c.d.f:bar",
          KeywordOp(Keyword('a.b.c.d.f'), Value('bar'))),
+
+
+        # Case Sensitivity
+        ("FIND A richter, b",
+         SpiresOp(Keyword('A'), Value('richter, b'))),
+
     )
 
 
