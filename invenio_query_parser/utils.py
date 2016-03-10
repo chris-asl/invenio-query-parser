@@ -27,7 +27,6 @@ from __future__ import absolute_import, print_function
 
 import re
 
-import pkg_resources
 from pypeg2 import attr
 
 
@@ -37,12 +36,14 @@ def build_valid_keywords_grammar(keywords=None):
         NotKeywordValue, SimpleQuery, ValueQuery
 
     if keywords:
-        KeywordRule.grammar = attr('value', re.compile(
-            r"(\d\d\d\w{{0,3}}|{0})\b".format("|".join(keywords), re.I)))
+        KeywordRule.grammar = attr(
+            'value', re.compile(
+                r"(\d\d\d\w{0,3}|%s)\b" %
+                "|".join(keywords), re.IGNORECASE))
 
         NotKeywordValue.grammar = attr('value', re.compile(
             r'\b(?!\d\d\d\w{{0,3}}|{0}:)\S+\b:'.format(
-                ":|".join(keywords))))
+                ":|".join(keywords)), re.IGNORECASE))
 
         SimpleQuery.grammar = attr(
             'op', [NotKeywordValue, KeywordQuery, ValueQuery])

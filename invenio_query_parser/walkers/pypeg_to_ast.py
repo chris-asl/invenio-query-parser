@@ -50,7 +50,7 @@ class PypegConverter(object):
 
     @visitor(parser.KeywordRule)
     def visit(self, node):
-        return ast.Keyword(node.value)
+        return ast.Keyword(node.value.lower())
 
     @visitor(parser.NestedKeywordsRule)
     def visit(self, node):

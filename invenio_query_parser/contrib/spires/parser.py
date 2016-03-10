@@ -31,7 +31,7 @@ from .config import SPIRES_KEYWORDS
 
 class SpiresKeywordRule(LeafRule):
     grammar = attr('value', re.compile(r"(%s)\b" % "|".join(
-        SPIRES_KEYWORDS.keys()), re.I))
+        SPIRES_KEYWORDS.keys()), re.IGNORECASE))
 
 
 class SpiresSimpleValue(LeafRule):
