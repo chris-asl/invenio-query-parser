@@ -174,13 +174,13 @@ SPIRES_KEYWORDS = {
     # texkey
     'texkey': 'texkey',
     # type code
-    'collection': 'collection',
-    'tc': 'collection',
-    'ty': 'collection',
-    'type': 'collection',
-    'type-code': 'collection',
-    'scl': 'collection',
-    'ps': 'collection',
+    'collection': 'tc',
+    'tc': 'tc',
+    'ty': 'tc',
+    'type': 'tc',
+    'type-code': 'tc',
+    'scl': 'tc',
+    'ps': 'tc',
     # field code
     'subject': 'fc',
     'f': 'fc',
