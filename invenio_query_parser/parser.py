@@ -155,7 +155,10 @@ class RangeOp(BinaryRule):
 
 
 class WildcardQuery(LeafRule):
-    grammar = attr('value', re.compile(r"[^\s]+\*(?:\s|$)"))
+    grammar = attr('value', [
+        re.compile(r"[^\s]+\*(?:\s|$)"),
+        re.compile(r"[^\s]+#(?:\s|$)")
+    ])
 
 
 class Value(UnaryRule):
