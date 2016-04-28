@@ -107,7 +107,7 @@ class BinaryKeywordBase(BinaryOp):
     @property
     def keyword(self):
         # FIXME evaluate if it's possible to move it out to spires module
-        from .contrib.spires.ast import SpiresOp
+        from inspirehep.modules.search.ast import SpiresOp
         if self.left:
             if isinstance(self.left, SpiresOp):
                 return self.left.keyword
